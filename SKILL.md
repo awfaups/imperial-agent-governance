@@ -78,28 +78,32 @@ Use this default path for substantial tasks:
 - `6AYH`：渐进式优化或重构
 - `PPW`: project inventory and process clarification
 - `PPW`：项目盘点与流程梳理
+- `SDD`: spec-driven development
+- `SDD`：规格驱动开发
 - `generic governance`: all other substantial engineering tasks
 - `generic governance`：其他需要工程治理的任务
 
-If `taizi` auto-classifies the request as `6A`, `6AYH`, or `PPW`, output that workflow's activation response exactly as defined in the workflow references before continuing.
-如果 `taizi` 自动将请求归类为 `6A`、`6AYH` 或 `PPW`，那么在继续之前，必须先按工作流参考文件中的定义原样输出对应激活响应语句。
+If `taizi` auto-classifies the request as `6A`, `6AYH`, `PPW`, or `SDD`, output that workflow's activation response exactly as defined in the workflow references before continuing.
+如果 `taizi` 自动将请求归类为 `6A`、`6AYH`、`PPW` 或 `SDD`，那么在继续之前，必须先按工作流参考文件中的定义原样输出对应激活响应语句。
 
-For `6A`, `6AYH`, and `PPW`, the workflow's required documents are mandatory deliverables, not advisory examples.
-对于 `6A`、`6AYH` 和 `PPW`，工作流中的必需文档是强制交付物，不是参考示例。
+For `6A`, `6AYH`, `PPW`, and `SDD`, the workflow's required documents are mandatory deliverables, not advisory examples.
+对于 `6A`、`6AYH`、`PPW` 和 `SDD`，工作流中的必需文档是强制交付物，不是参考示例。
 When one of these modes is selected, the workflow must initialize or update the required files under the current IDE project's root `docs/` directory before implementation proceeds.
 当选中这些模式之一时，工作流必须先在当前 IDE / 当前打开项目根目录下的 `docs/` 目录中初始化或更新必需文件，然后才能进入实施阶段。
-Use a dated task directory in the form `docs/YYYY_MM_DD_中文任务名/`.
-文档目录必须使用带日期前缀的命名方式：`docs/YYYY_MM_DD_中文任务名/`。
+Use a dated and versioned task directory in the form `docs/YYYY_MM_DD_中文任务名_vN/`.
+文档目录必须使用带日期和版本号的命名方式：`docs/YYYY_MM_DD_中文任务名_vN/`。
 Never place generated workflow docs inside the skill package repository itself unless that repository is the active project being worked on.
 除非当前正在处理的项目本身就是这个 skill 仓库，否则禁止把工作流文档写到 skill 包仓库自身目录里。
+When a workflow includes code modification, the generated docs must record the target file path, line range, and before/after code context for each planned or completed change.
+当工作流涉及代码修改时，生成的文档必须记录每个计划或已完成改动的目标文件路径、行号范围，以及修改前后代码上下文。
 
 ### Stage guidance
 阶段指引
 
 - `taizi`: normalize the request, extract intent, assign title and tags
 - `taizi`：规范化请求、提取意图、生成标题和标签
-- `taizi`: include the selected workflow mode and required-document manifest in the first task card when mode is `6A`, `6AYH`, or `PPW`
-- `taizi`：当模式为 `6A`、`6AYH` 或 `PPW` 时，在首张任务卡中包含工作流模式和必需文档清单
+- `taizi`: include the selected workflow mode and required-document manifest in the first task card when mode is `6A`, `6AYH`, `PPW`, or `SDD`
+- `taizi`：当模式为 `6A`、`6AYH`、`PPW` 或 `SDD` 时，在首张任务卡中包含工作流模式和必需文档清单
 - `zhongshu`: decompose the task, define execution steps, choose likely worker departments
 - `zhongshu`：拆解任务、定义执行步骤、选择可能参与的执行部门
 - `zhongshu`: convert required documents into a document-bootstrap plan and stage ownership
@@ -136,6 +140,7 @@ Read these workflow files when the selected internal mode needs them:
 - `references/workflows/6a.md`
 - `references/workflows/6ayh.md`
 - `references/workflows/ppw.md`
+- `references/workflows/sdd.md`
 
 Treat each workflow file's `Required documents` section as an execution contract.
 把每个工作流文件中的 `Required documents` 部分视为执行契约。
@@ -204,6 +209,8 @@ Use a structured task card rather than a loose message. Required fields:
 - `current_stage`
 - `required_documents`
 - `document_status`
+- `document_bundle_version`
+- `code_change_targets`
 - `handoff_history`
 - `status`
 
@@ -216,8 +223,12 @@ Use a structured task card rather than a loose message. Required fields:
 - 确保每次 handoff 都能落到 `references/handoff-record.schema.json` 定义的结构里
 - every handoff must include a responsibility-transfer notice stating what the current role stops owning, what the next role starts owning, and what remains out of scope
 - 每次 handoff 都必须带上职责转移提示，明确当前角色停止负责什么、下一角色开始负责什么、哪些内容仍然不在职责范围内
-- for `6A`, `6AYH`, and `PPW`, record the required-document list in the first task card and keep the docs status visible in subsequent handoffs
-- 对于 `6A`、`6AYH` 和 `PPW`，要在首张任务卡中记录必需文档清单，并在后续 handoff 中持续暴露文档状态
+- for `6A`, `6AYH`, `PPW`, and `SDD`, record the required-document list in the first task card and keep the docs status visible in subsequent handoffs
+- 对于 `6A`、`6AYH`、`PPW` 和 `SDD`，要在首张任务卡中记录必需文档清单，并在后续 handoff 中持续暴露文档状态
+- for code-changing workflows, record file paths, line ranges, and before/after code context in the task card and final docs
+- 对于涉及代码修改的工作流，必须在任务卡和最终文档中记录文件路径、行号范围以及修改前后代码上下文
+- all code changes must include clear Chinese inline comments explaining intent and key logic; English-only comments are not sufficient
+- 所有代码改动都必须包含清晰的中文行内注释，说明实现意图与关键逻辑；仅有英文注释不视为满足要求
 - only move task status according to `references/status-transitions.json`
 - 只能按照 `references/status-transitions.json` 推进任务状态
 - keep worker outputs scoped to their own domain
@@ -226,6 +237,8 @@ Use a structured task card rather than a loose message. Required fields:
 - 最终结果必须由 `shangshu` 汇总
 - do not start implementation for `6A` or `6AYH` until the workflow document skeletons are created
 - 对于 `6A` 和 `6AYH`，在工作流文档骨架创建完成之前，不得开始实施
+- do not start implementation for `SDD` until the spec, plan, and approval documents are initialized
+- 对于 `SDD`，在规格、计划和审批文档初始化完成之前，不得开始实施
 - do not advance `PPW` beyond inventory without its required project documents being initialized
 - 对于 `PPW`，在项目必需文档初始化完成之前，不得推进到资产盘点之后的阶段
 - do not let workers bypass the handoff graph

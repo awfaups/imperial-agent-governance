@@ -71,6 +71,13 @@
       "then": ["zhongshu", "libu", "menxia"],
       "description": "项目流程梳理工作流",
       "activation_response": "✅ 项目流程梳理工作流（PPW）已激活\n当前阶段：A1 – 项目资产盘点（Inventory）"
+    },
+    "@sdd": {
+      "owner": "taizi",
+      "workflow": "sdd",
+      "then": ["zhongshu", "menxia", "shangshu", "bingbu", "libu"],
+      "description": "规格驱动开发工作流",
+      "activation_response": "✅ Spec-Driven Development 工作流（SDD）已激活\n当前阶段：Spec（规格定义）"
     }
   },
   "auto_classification": {
@@ -113,6 +120,20 @@
         "项目资产盘点",
         "inventory",
         "roadmap"
+      ],
+      "emit_activation_response": true
+    },
+    "sdd": {
+      "match_any_signals": [
+        "sdd",
+        "spec-driven",
+        "spec driven",
+        "规格驱动",
+        "规格驱动开发",
+        "先写规格",
+        "先写 spec",
+        "spec first",
+        "spec as source"
       ],
       "emit_activation_response": true
     },

@@ -15,8 +15,10 @@
     "review_required",
     "workflow_mode",
     "current_stage",
+    "document_bundle_version",
     "required_documents",
     "document_status",
+    "code_change_targets",
     "handoff_history",
     "status"
   ],
@@ -87,6 +89,10 @@
       "type": "string",
       "minLength": 1
     },
+    "document_bundle_version": {
+      "type": "string",
+      "pattern": "^v[1-9][0-9]*$"
+    },
     "required_documents": {
       "type": "array",
       "items": {
@@ -152,6 +158,45 @@
             "type": "string"
           },
           "owner": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "code_change_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "change_summary"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start_line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end_line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "change_summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "before_context": {
+            "type": "string"
+          },
+          "after_context": {
             "type": "string"
           },
           "notes": {

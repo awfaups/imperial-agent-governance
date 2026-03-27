@@ -60,8 +60,9 @@ Portable multi-agent governance skill for role-based planning, review, dispatch,
 - `@ppw` / `@PPW`：项目流程梳理
 - `@6A`：新增功能开发
 - `@6AYH`：渐进式优化
+- `@sdd`：规格驱动开发
 
-当请求内容匹配 `6A`、`6AYH` 或 `PPW` 的自动识别信号时，`taizi` 也应先输出对应工作流规定的激活响应，再继续内部流转。
+当请求内容匹配 `6A`、`6AYH`、`PPW` 或 `SDD` 的自动识别信号时，`taizi` 也应先输出对应工作流规定的激活响应，再继续内部流转。
 
 ## 标签到执行部门的默认路由
 
@@ -151,6 +152,8 @@ Portable multi-agent governance skill for role-based planning, review, dispatch,
 - [references/workflows/6a.md](references/workflows/6a.md)：新增功能开发工作流
 - [references/workflows/6ayh.md](references/workflows/6ayh.md)：渐进式优化工作流
 - [references/workflows/ppw.md](references/workflows/ppw.md)：项目流程梳理工作流
+- [references/workflows/sdd.md](references/workflows/sdd.md)：规格驱动开发工作流
+- [references/templates/01_SPEC.template.md](references/templates/01_SPEC.template.md)：SDD 的规格文档模板
 
 ## 最小使用示例
 
@@ -172,13 +175,25 @@ Portable multi-agent governance skill for role-based planning, review, dispatch,
 
 `6A`、`6AYH`、`PPW` 生成的文档目录，统一使用：
 
-`docs/YYYY_MM_DD_中文任务名/`
+`docs/YYYY_MM_DD_中文任务名_vN/`
 
 这个 `docs/` 必须位于**当前 IDE / 当前打开项目的根目录**下，而不是 skill 包自己的目录里。
 
 例如：
 
-`docs/2026_03_17_首页优化/`
+`docs/2026_03_23_首页优化_v1/`
+
+如果是同一个功能的第二版、第三版文档，就递增为：
+
+- `docs/2026_03_23_首页优化_v2/`
+- `docs/2026_03_23_首页优化_v3/`
+
+如果工作流涉及代码修改，文档里还必须记录：
+
+- 要修改的文件路径
+- 具体行号范围
+- 修改前代码片段
+- 修改后代码片段
 
 ## 设计目标
 

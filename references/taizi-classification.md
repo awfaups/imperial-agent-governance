@@ -17,14 +17,18 @@ When the user input contains `@taizi`, `taizi` must do these steps in order:
    - `6AYH`：渐进式优化 / 重构
    - `PPW`: project inventory / process clarification
    - `PPW`：项目盘点 / 流程梳理
+   - `SDD`: spec-driven development
+   - `SDD`：规格驱动开发
    - `generic governance`: all other substantial tasks
    - `generic governance`：其他需要工程治理的重要任务
-3. Build a structured task card with `workflow_mode`, `current_stage`, `status=triaged`, and the first `handoff_history` entry.
-3. 构建结构化任务卡，并补齐 `workflow_mode`、`current_stage`、`status=triaged` 以及第一条 `handoff_history` 记录。
-4. If the classification result is `6A`, `6AYH`, or `PPW`, output the workflow activation response exactly.
-4. 如果分类结果是 `6A`、`6AYH` 或 `PPW`，先原样输出该工作流的激活响应语句。
-5. If the classification result is `6A`, `6AYH`, or `PPW`, extract that workflow's required-document list, resolve it against the current project's root `docs/` directory, and attach it to the task card.
-5. 如果分类结果是 `6A`、`6AYH` 或 `PPW`，提取该工作流的必需文档清单，并将路径解析到当前打开项目根目录下的 `docs/` 目录，再附加到任务卡中。
+3. Build a structured task card with `workflow_mode`, `current_stage`, `document_bundle_version`, `code_change_targets`, `status=triaged`, and the first `handoff_history` entry.
+3. 构建结构化任务卡，并补齐 `workflow_mode`、`current_stage`、`document_bundle_version`、`code_change_targets`、`status=triaged` 以及第一条 `handoff_history` 记录。
+4. If the classification result is `6A`, `6AYH`, `PPW`, or `SDD`, output the workflow activation response exactly.
+4. 如果分类结果是 `6A`、`6AYH`、`PPW` 或 `SDD`，先原样输出该工作流的激活响应语句。
+5. If the classification result is `6A`, `6AYH`, `PPW`, or `SDD`, extract that workflow's required-document list, resolve it against the current project's root `docs/` directory, and attach it to the task card.
+5. 如果分类结果是 `6A`、`6AYH`、`PPW` 或 `SDD`，提取该工作流的必需文档清单，并将路径解析到当前打开项目根目录下的 `docs/` 目录，再附加到任务卡中。
+Default the first document bundle to `v1`; if the same feature or workflow topic already has an existing bundle, increment it to `v2`, `v3`, and so on.
+如果是该功能或该流程主题的第一套文档，默认版本号为 `v1`；如果已有同主题文档目录，就递增为 `v2`、`v3` 等。
 6. Mark the task card as requiring document bootstrap before execution when those required files are missing, and set `document_status=pending`.
 6. 如果这些必需文件缺失，就把任务卡标记为“执行前必须完成文档初始化”，并设置 `document_status=pending`。
 7. Hand off only to `zhongshu`.
@@ -69,6 +73,18 @@ Choose `PPW` when the request mainly describes:
 - system and contract mapping
 - 系统和契约映射
 
+Choose `SDD` when the request mainly describes:
+当请求主要描述以下内容时，选择 `SDD`：
+
+- spec-driven development
+- 规格驱动开发
+- implementation derived from specs
+- 从规格推导实现
+- spec first
+- 先写规格再实现
+- the desire to run a spec-plan-implement loop with minimal extra prompting
+- 希望用较少额外交互跑完规格-计划-实施闭环
+
 Choose `generic governance` when:
 当满足以下情况时，选择 `generic governance`：
 
@@ -80,11 +96,11 @@ Choose `generic governance` when:
 ## Activation-output rule
 激活语句输出规则
 
-If classification chooses `6A`, `6AYH`, or `PPW`, `taizi` must output the activation response defined by that workflow before any additional planning text.
-如果分类结果命中 `6A`、`6AYH` 或 `PPW`，`taizi` 必须先输出该工作流预定义的激活响应语句，然后才能继续输出后续规划内容。
+If classification chooses `6A`, `6AYH`, `PPW`, or `SDD`, `taizi` must output the activation response defined by that workflow before any additional planning text.
+如果分类结果命中 `6A`、`6AYH`、`PPW` 或 `SDD`，`taizi` 必须先输出该工作流预定义的激活响应语句，然后才能继续输出后续规划内容。
 
-For `6A`, `6AYH`, and `PPW`, `taizi` must also carry forward the workflow's required-document manifest in the first task card.
-对于 `6A`、`6AYH` 和 `PPW`，`taizi` 还必须把该工作流的必需文档清单带入首张任务卡。
+For `6A`, `6AYH`, `PPW`, and `SDD`, `taizi` must also carry forward the workflow's required-document manifest in the first task card.
+对于 `6A`、`6AYH`、`PPW` 和 `SDD`，`taizi` 还必须把该工作流的必需文档清单带入首张任务卡。
 The required-document manifest should be treated as mandatory output scope, not optional context.
 这个文档清单应被视为强制输出范围，而不是可选上下文。
 The first handoff record must explain why the task entered the selected workflow and why it was handed to `zhongshu`.

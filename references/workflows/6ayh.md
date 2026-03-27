@@ -29,14 +29,14 @@ When the user input contains `@6AYH`, output exactly:
 ## Required documents
 必需文档
 
-- `docs/[YYYY_MM_DD]_[中文任务名]/01_ALIGNMENT_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/02_DESIGN_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/03_TASK_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/04_APPROVE_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/05_ACCEPTANCE_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/06_FINAL_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/07_TODO_[中文任务名].md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/99_REFERENCES_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/01_ALIGNMENT_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/02_DESIGN_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/03_TASK_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/04_APPROVE_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/05_ACCEPTANCE_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/06_FINAL_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/07_TODO_[中文任务名].md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/99_REFERENCES_[中文任务名].md`
 
 ## Document bootstrap
 文档初始化规则
@@ -46,10 +46,12 @@ When 6AYH is selected, these files must be created or updated under the current 
 
 - `taizi` must put the required-document list into the first task card
 - `taizi` 必须把必需文档清单写入首张任务卡
-- use the current date as a directory prefix in `YYYY_MM_DD` format, for example `docs/2026_03_17_首页优化/`
-- 目录名前缀必须使用当前日期，格式为 `YYYY_MM_DD`，例如 `docs/2026_03_17_首页优化/`
+- use the current date as a directory prefix and append a bundle version, for example `docs/2026_03_23_首页优化_v1/`
+- 目录名前缀必须使用当前日期并追加版本号，例如 `docs/2026_03_23_首页优化_v1/`
 - the `docs/` directory is always relative to the active project root in the IDE
 - `docs/` 目录始终相对于当前 IDE 中打开项目的根目录
+- when the same feature is optimized again, increment the bundle version to `v2`, `v3`, and so on
+- 当同一功能再次产出优化文档时，目录版本号递增为 `v2`、`v3` 等
 - `zhongshu` must convert the document list into a staged plan
 - `zhongshu` 必须把文档清单转成分阶段计划
 - `shangshu` must dispatch `libu` to initialize missing files
@@ -58,6 +60,8 @@ When 6AYH is selected, these files must be created or updated under the current 
 - 每一步优化都必须有对应的文档更新、回滚说明或验证记录
 - optimization execution is blocked until the document skeleton set exists
 - 在文档骨架集合存在之前，优化执行被阻断
+- any code-changing step must document target file paths, line ranges, and before/after code context in the workflow docs
+- 任何涉及代码修改的步骤，都必须在工作流文档中记录目标文件路径、行号范围以及修改前后代码上下文
 
 ## Control rules
 控制规则

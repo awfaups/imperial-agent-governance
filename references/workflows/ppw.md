@@ -31,14 +31,14 @@ When the user input contains `@PPW` or clearly requests project-process inventor
 ## Required documents
 必需文档
 
-- `docs/[YYYY_MM_DD]_[中文任务名]/01_INVENTORY.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/02_GOALS.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/03_FLOWS.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/04_CONTRACTS.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/05_RISK_REGISTER.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/06_ROADMAP.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/07_CONSENSUS.md`
-- `docs/[YYYY_MM_DD]_[中文任务名]/08_DECISIONS.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/01_INVENTORY.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/02_GOALS.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/03_FLOWS.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/04_CONTRACTS.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/05_RISK_REGISTER.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/06_ROADMAP.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/07_CONSENSUS.md`
+- `docs/[YYYY_MM_DD]_[中文任务名]_vN/08_DECISIONS.md`
 
 ## Document bootstrap
 文档初始化规则
@@ -48,10 +48,12 @@ When PPW is selected, these files must be created or updated under the current a
 
 - `taizi` must put the required-document list into the first task card
 - `taizi` 必须把必需文档清单写入首张任务卡
-- use the current date as a directory prefix in `YYYY_MM_DD` format, for example `docs/2026_03_17_项目流程梳理/`
-- 目录名前缀必须使用当前日期，格式为 `YYYY_MM_DD`，例如 `docs/2026_03_17_项目流程梳理/`
+- use the current date as a directory prefix and append a bundle version, for example `docs/2026_03_23_项目流程梳理_v1/`
+- 目录名前缀必须使用当前日期并追加版本号，例如 `docs/2026_03_23_项目流程梳理_v1/`
 - the `docs/` directory is always relative to the active project root in the IDE
 - `docs/` 目录始终相对于当前 IDE 中打开项目的根目录
+- when the same project topic is revisited, increment the bundle version to `v2`, `v3`, and so on
+- 当同一项目主题再次产出文档时，目录版本号递增为 `v2`、`v3` 等
 - `zhongshu` must convert the document list into a phased project-document plan
 - `zhongshu` 必须把文档清单转成阶段化的项目文档计划
 - `shangshu` must dispatch `libu` to initialize missing files

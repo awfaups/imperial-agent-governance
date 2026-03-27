@@ -73,6 +73,7 @@
 - 所有 handoff 记录都必须包含 `responsibility_notice`
 - `menxia` 驳回时必须写明 `rejection_reason`
 - `menxia` 要求返工时必须写明 `required_fixes`
+- 涉及代码修改时，任务卡和工作流文档都必须包含 `code_change_targets`
 - 执行部门不能把任务直接改成 `completed`
 - `shangshu` 只能在收齐执行回传后把任务推进到 `aggregated`
 - 只有 `shangshu` 可以输出对外最终结论并推进到 `completed`

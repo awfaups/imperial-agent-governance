@@ -145,16 +145,24 @@ ls ~/.codex/skills/imperial-agent-governance
 文档目录格式统一为：
 
 ```text
-docs/YYYY_MM_DD_中文任务名/
+docs/YYYY_MM_DD_中文任务名_vN/
 ```
 
 例如：
 
 ```text
-docs/2026_03_17_首页优化/
+docs/2026_03_23_首页优化_v1/
 ```
 
 这里的 `docs/` 指的是你当前 IDE 里正在处理的那个项目根目录，不是这个 skill 包安装目录。
+如果同一个功能继续出第二版、第三版方案或实现文档，就把目录版本号递增到 `v2`、`v3`。
+
+如果 workflow 里包含代码修改，文档还应该额外写清楚：
+
+1. 修改的是哪个文件
+2. 大概位于哪些行
+3. 修改前的代码上下文
+4. 修改后的代码上下文
 4. 交给 `zhongshu` 做方案和拆解
 5. 如果任务风险高，再交给 `menxia`
 6. 最后由 `shangshu` 协调执行角色
@@ -182,6 +190,11 @@ docs/2026_03_17_首页优化/
 - `@6A`：新增功能开发
 - `@6AYH`：渐进式优化
 - `@PPW`：项目流程梳理
+- `@sdd`：规格驱动开发
+
+如果你想让它更稳定地跑 `SDD`，可以把规格文档按这个模板生成：
+
+- [references/templates/01_SPEC.template.md](references/templates/01_SPEC.template.md)
 
 如果你不确定用哪个，直接用 `@taizi` 就够了。
 
