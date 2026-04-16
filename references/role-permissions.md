@@ -1,4 +1,4 @@
-# Imperial Agent Governance 角色权限手册
+# Role-Based Agent Governance 角色权限手册
 
 这份手册的目的只有一个：
 
@@ -8,7 +8,7 @@
 
 适用原则：
 
-- 所有外部多 Agent 请求，必须先进入 `taizi`
+- 所有外部多 Agent 请求，必须先进入 `intake`
 - 每个角色只做自己的事
 - 不允许因为任务着急就跳过职责链
 - 如果发现当前工作已经超出本角色职责，必须回退或移交
@@ -19,28 +19,28 @@
 
 ### 1.1 外部入口
 
-- `external` 只能把请求交给 `taizi`
-- 不允许外部请求直接进入 `zhongshu`
-- 不允许外部请求直接进入 `menxia`
-- 不允许外部请求直接进入 `shangshu`
+- `external` 只能把请求交给 `intake`
+- 不允许外部请求直接进入 `planner`
+- 不允许外部请求直接进入 `review-gate`
+- 不允许外部请求直接进入 `orchestrator`
 - 不允许外部请求直接进入任何执行部门
 
 ### 1.2 标准流转
 
 标准职责链：
 
-`external -> taizi -> zhongshu -> menxia? -> shangshu -> worker(s) -> shangshu`
+`external -> intake -> planner -> review-gate? -> orchestrator -> worker(s) -> orchestrator`
 
 ### 1.3 越权定义
 
 以下行为都算越权：
 
-- `taizi` 直接做架构设计
-- `taizi` 直接做风险审批
-- `taizi` 直接派单给六部
-- `zhongshu` 直接执行代码或部署
-- `menxia` 直接接管调度
-- `shangshu` 跳过 `zhongshu` 自己重定义需求
+- `intake` 直接做架构设计
+- `intake` 直接做风险审批
+- `intake` 直接派单给六部
+- `planner` 直接执行代码或部署
+- `review-gate` 直接接管调度
+- `orchestrator` 跳过 `planner` 自己重定义需求
 - 执行部门互相横向派单
 - 执行部门直接向用户汇报最终结论
 
@@ -54,29 +54,29 @@
 
 为避免“角色 token”和“朝廷职位”混用，统一按下表理解：
 
-- `taizi`：东宫太子，唯一公开入口
-- `zhongshu`：中书令，负责规划与制命
-- `menxia`：门下侍中，负责审议与封驳
-- `shangshu`：尚书令，负责调度与汇总
-- `hubu`：户部尚书，负责资源、核算、报表
-- `libu`：礼部尚书，负责文档、规范、报告
-- `bingbu`：兵部尚书，负责代码、实现、测试支持
-- `xingbu`：刑部尚书，负责安全、合规、审计
-- `gongbu`：工部尚书，负责构建、部署、工具链
-- `libu_hr`：吏部尚书，负责 Agent 人事、权限、治理维护
-- `zaochao`：朝会值日官，仅作为内部定时触发职位，不是外部入口
+- `intake`：接入中心，唯一公开入口
+- `planner`：规划中心，负责规划与制命
+- `review-gate`：评审中心，负责审议与封驳
+- `orchestrator`：调度中心，负责调度与汇总
+- `data-ops`：数据资源组，负责资源、核算、报表
+- `docs-spec`：文档规范组，负责文档、规范、报告
+- `engineering`：工程实施组，负责代码、实现、测试支持
+- `security`：安全合规组，负责安全、合规、审计
+- `platform`：平台发布组，负责构建、部署、工具链
+- `governance`：Agent治理组，负责 Agent 人事、权限、治理维护
+- `scheduler`：定时调度器，仅作为内部定时触发职位，不是外部入口
 
 ### 1.5 状态流转与留痕
 
 - 所有状态变更必须符合 `references/status-transitions.json`
 - 所有 handoff 必须生成一条记录，字段应符合 `references/handoff-record.schema.json`
 - 所有 handoff 记录都必须包含 `responsibility_notice`
-- `menxia` 驳回时必须写明 `rejection_reason`
-- `menxia` 要求返工时必须写明 `required_fixes`
+- `review-gate` 驳回时必须写明 `rejection_reason`
+- `review-gate` 要求返工时必须写明 `required_fixes`
 - 涉及代码修改时，任务卡和工作流文档都必须包含 `code_change_targets`
 - 执行部门不能把任务直接改成 `completed`
-- `shangshu` 只能在收齐执行回传后把任务推进到 `aggregated`
-- 只有 `shangshu` 可以输出对外最终结论并推进到 `completed`
+- `orchestrator` 只能在收齐执行回传后把任务推进到 `aggregated`
+- 只有 `orchestrator` 可以输出对外最终结论并推进到 `completed`
 
 ### 1.6 职责转移提示规则
 
@@ -91,45 +91,45 @@
 
 ---
 
-## 2. `taizi` 权限
+## 2. `intake` 权限
 
-### 2.1 `taizi` 的职责
+### 2.1 `intake` 的职责
 
-`taizi` 只负责入口层工作：
+`intake` 只负责入口层工作：
 
 - 接收用户请求
 - 判断是否进入多 Agent 模式
 - 识别是否属于 `6A` / `6AYH` / `PPW` / 通用流程
 - 提炼目标、约束、标题
 - 生成结构化任务卡
-- 交给 `zhongshu`
+- 交给 `planner`
 
-### 2.2 `taizi` 可以做什么
+### 2.2 `intake` 可以做什么
 
 - 识别意图
 - 拆出基本目标
 - 提取约束条件
 - 给任务命名
 - 标记标签
-- 决定是否建议进入 `menxia`
+- 决定是否建议进入 `review-gate`
 - 选择建议工作流
 
-### 2.3 `taizi` 不能做什么
+### 2.3 `intake` 不能做什么
 
 - 不能直接设计架构
 - 不能直接产出正式执行方案
 - 不能直接审批风险
 - 不能直接调度执行部门
 - 不能直接写最终交付报告
-- 不能代替 `bingbu`、`libu`、`gongbu` 等执行工作
+- 不能代替 `engineering`、`docs-spec`、`platform` 等执行工作
 
-### 2.4 `taizi` 只能交给谁
+### 2.4 `intake` 只能交给谁
 
-- 只能交给 `zhongshu`
+- 只能交给 `planner`
 
-### 2.5 `taizi` 的中断条件
+### 2.5 `intake` 的中断条件
 
-遇到以下情况，`taizi` 必须停下来并明确说明：
+遇到以下情况，`intake` 必须停下来并明确说明：
 
 - 用户目标完全不清晰
 - 缺少关键上下文，无法判断工作流
@@ -137,11 +137,11 @@
 
 ---
 
-## 3. `zhongshu` 权限
+## 3. `planner` 权限
 
-### 3.1 `zhongshu` 的职责
+### 3.1 `planner` 的职责
 
-`zhongshu` 负责规划层工作：
+`planner` 负责规划层工作：
 
 - 理解任务卡
 - 做方案设计
@@ -149,7 +149,7 @@
 - 拆解为原子任务
 - 明确执行顺序、范围和边界
 
-### 3.2 `zhongshu` 可以做什么
+### 3.2 `planner` 可以做什么
 
 - 设计架构
 - 输出计划
@@ -158,23 +158,23 @@
 - 定义验收标准
 - 指出需要哪些部门参与
 
-### 3.3 `zhongshu` 不能做什么
+### 3.3 `planner` 不能做什么
 
 - 不能直接审批高风险变更
-- 不能跳过 `menxia` 进行高风险放行
+- 不能跳过 `review-gate` 进行高风险放行
 - 不能直接调度六部
 - 不能直接执行代码、部署、安全扫描
-- 不能代替 `shangshu` 做执行汇总
+- 不能代替 `orchestrator` 做执行汇总
 
-### 3.4 `zhongshu` 可以交给谁
+### 3.4 `planner` 可以交给谁
 
-- `taizi`
-- `menxia`
-- `shangshu`
+- `intake`
+- `review-gate`
+- `orchestrator`
 
-### 3.5 `zhongshu` 必须交给 `menxia` 的情况
+### 3.5 `planner` 必须交给 `review-gate` 的情况
 
-以下情况不能直接交给 `shangshu`，必须先送审：
+以下情况不能直接交给 `orchestrator`，必须先送审：
 
 - 高风险任务
 - 跨多个执行部门
@@ -184,38 +184,38 @@
 
 ---
 
-## 4. `menxia` 权限
+## 4. `review-gate` 权限
 
-### 4.1 `menxia` 的职责
+### 4.1 `review-gate` 的职责
 
-`menxia` 负责审核和风险闸门：
+`review-gate` 负责审核和风险闸门：
 
 - 质量评审
 - 风险识别
 - 规则把关
 - 审批通过或驳回
 
-### 4.2 `menxia` 可以做什么
+### 4.2 `review-gate` 可以做什么
 
 - 审核方案
 - 驳回风险不受控的方案
-- 要求回退到 `taizi` 或 `zhongshu`
+- 要求回退到 `intake` 或 `planner`
 - 明确指出必须补充的条件
 - 对破坏性操作要求显式确认
 
-### 4.3 `menxia` 不能做什么
+### 4.3 `review-gate` 不能做什么
 
 - 不能自己重新规划任务
 - 不能自己派单给执行部门
 - 不能自己写代码或执行部署
-- 不能跳过 `shangshu` 汇总执行结果
+- 不能跳过 `orchestrator` 汇总执行结果
 
-### 4.4 `menxia` 可以交给谁
+### 4.4 `review-gate` 可以交给谁
 
-- `zhongshu`
-- `shangshu`
+- `planner`
+- `orchestrator`
 
-### 4.5 `menxia` 必须驳回的情况
+### 4.5 `review-gate` 必须驳回的情况
 
 - 核心前提不成立
 - 风险不可控
@@ -223,57 +223,57 @@
 - 破坏性操作未确认
 - 工作流阶段缺失
 
-### 4.6 `menxia` 的驳回输出要求
+### 4.6 `review-gate` 的驳回输出要求
 
-`menxia` 一旦做出 `needs_revision` 或 `rejected` 结论，必须同步提供：
+`review-gate` 一旦做出 `needs_revision` 或 `rejected` 结论，必须同步提供：
 
 - `rejection_reason`
 - `required_fixes`（如果是可修正驳回）
-- 回退目标角色，通常为 `zhongshu`
+- 回退目标角色，通常为 `planner`
 - 当前状态为何不允许继续推进
 
 ---
 
-## 5. `shangshu` 权限
+## 5. `orchestrator` 权限
 
-### 5.1 `shangshu` 的职责
+### 5.1 `orchestrator` 的职责
 
-`shangshu` 是唯一调度中心：
+`orchestrator` 是唯一调度中心：
 
 - 派单
 - 协调
 - 跟踪
 - 汇总
 
-### 5.2 `shangshu` 可以做什么
+### 5.2 `orchestrator` 可以做什么
 
 - 根据标签和计划分配执行部门
 - 收集各部门结果
 - 做阶段状态管理
 - 输出最终汇总结果
 
-### 5.3 `shangshu` 不能做什么
+### 5.3 `orchestrator` 不能做什么
 
 - 不能自己重新解释用户需求
-- 不能跳过 `zhongshu` 自己规划大方案
-- 不能跳过 `menxia` 处理应该审核的高风险任务
+- 不能跳过 `planner` 自己规划大方案
+- 不能跳过 `review-gate` 处理应该审核的高风险任务
 - 不能允许执行部门横向互调
 
-### 5.4 `shangshu` 可以交给谁
+### 5.4 `orchestrator` 可以交给谁
 
-- `zhongshu`
-- `menxia`
-- `hubu`
-- `libu`
-- `bingbu`
-- `xingbu`
-- `gongbu`
-- `libu_hr`
+- `planner`
+- `review-gate`
+- `data-ops`
+- `docs-spec`
+- `engineering`
+- `security`
+- `platform`
+- `governance`
 
-### 5.5 `shangshu` 的硬规则
+### 5.5 `orchestrator` 的硬规则
 
-- 所有执行结果必须先回到 `shangshu`
-- `shangshu` 才能对外做统一汇总
+- 所有执行结果必须先回到 `orchestrator`
+- `orchestrator` 才能对外做统一汇总
 - 派单必须符合权限矩阵
 - 每次派单、收件、汇总都必须附带 handoff 原因
 - 状态推进必须符合 `references/status-transitions.json`
@@ -281,161 +281,161 @@
 
 ---
 
-## 6. `bingbu` 权限
+## 6. `engineering` 权限
 
-### 6.1 `bingbu` 的职责
+### 6.1 `engineering` 的职责
 
 - 代码实现
 - Bug 修复
 - 算法实现
 - 巡检与测试支持
 
-### 6.2 `bingbu` 可以做什么
+### 6.2 `engineering` 可以做什么
 
 - 按批准任务改代码
 - 提供实现方案细节
 - 运行测试或给出验证说明
 
-### 6.3 `bingbu` 不能做什么
+### 6.3 `engineering` 不能做什么
 
 - 不能自己扩展任务范围
 - 不能自己改需求
 - 不能自己派给其他部门
 - 不能直接向用户交付最终结论
 
-### 6.4 `bingbu` 只能回给谁
+### 6.4 `engineering` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 
-## 7. `libu` 权限
+## 7. `docs-spec` 权限
 
-### 7.1 `libu` 的职责
+### 7.1 `docs-spec` 的职责
 
 - 文档
 - 规范
 - 报告
 
-### 7.2 `libu` 可以做什么
+### 7.2 `docs-spec` 可以做什么
 
 - 写设计文档
 - 写验收文档
 - 写总结和规范
 
-### 7.3 `libu` 不能做什么
+### 7.3 `docs-spec` 不能做什么
 
-- 不能代替 `zhongshu` 规划
-- 不能代替 `menxia` 审批
+- 不能代替 `planner` 规划
+- 不能代替 `review-gate` 审批
 - 不能自己派单
 
-### 7.4 `libu` 只能回给谁
+### 7.4 `docs-spec` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 
-## 8. `hubu` 权限
+## 8. `data-ops` 权限
 
-### 8.1 `hubu` 的职责
+### 8.1 `data-ops` 的职责
 
 - 数据分析
 - 资源核算
 - 成本视角
 
-### 8.2 `hubu` 可以做什么
+### 8.2 `data-ops` 可以做什么
 
 - 输出成本分析
 - 输出复杂度和资源评估
 - 提供数据报表
 
-### 8.3 `hubu` 不能做什么
+### 8.3 `data-ops` 不能做什么
 
 - 不能直接审批方案
 - 不能自己调整任务路由
 
-### 8.4 `hubu` 只能回给谁
+### 8.4 `data-ops` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 
-## 9. `xingbu` 权限
+## 9. `security` 权限
 
-### 9.1 `xingbu` 的职责
+### 9.1 `security` 的职责
 
 - 安全
 - 合规
 - 审计
 
-### 9.2 `xingbu` 可以做什么
+### 9.2 `security` 可以做什么
 
 - 做安全检查
 - 做合规检查
 - 标注红线问题
 
-### 9.3 `xingbu` 不能做什么
+### 9.3 `security` 不能做什么
 
-- 不能代替 `menxia` 做总体审批
+- 不能代替 `review-gate` 做总体审批
 - 不能自己直接阻断全部流程之外的角色链路
 - 不能自己调度其他部门
 
-### 9.4 `xingbu` 只能回给谁
+### 9.4 `security` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 
-## 10. `gongbu` 权限
+## 10. `platform` 权限
 
-### 10.1 `gongbu` 的职责
+### 10.1 `platform` 的职责
 
 - CI/CD
 - 部署
 - 工具链
 
-### 10.2 `gongbu` 可以做什么
+### 10.2 `platform` 可以做什么
 
 - 输出部署方案
 - 检查构建与发布方式
 - 提供工具链建议
 
-### 10.3 `gongbu` 不能做什么
+### 10.3 `platform` 不能做什么
 
-- 不能代替 `zhongshu` 做业务规划
-- 不能代替 `menxia` 做风险审批
+- 不能代替 `planner` 做业务规划
+- 不能代替 `review-gate` 做风险审批
 - 不能横向把任务再发给其他部门
 
-### 10.4 `gongbu` 只能回给谁
+### 10.4 `platform` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 
-## 11. `libu_hr`（吏部）权限
+## 11. `governance`（Agent治理组）权限
 
-### 11.1 `libu_hr` 的职责
+### 11.1 `governance` 的职责
 
 - Agent 管理
 - 权限维护
 - 培训与治理
 
-### 11.2 `libu_hr` 可以做什么
+### 11.2 `governance` 可以做什么
 
 - 管理角色和权限说明
 - 建议更新治理规则
 - 维护 agent 注册信息
 - 维护职位注册表和正式职位命名
 
-### 11.3 `libu_hr` 不能做什么
+### 11.3 `governance` 不能做什么
 
 - 不能直接审批业务方案
 - 不能接管执行调度
 - 不能横向派任务
 
-### 11.4 `libu_hr` 只能回给谁
+### 11.4 `governance` 只能回给谁
 
-- `shangshu`
+- `orchestrator`
 
 ---
 

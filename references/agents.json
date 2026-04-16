@@ -1,19 +1,19 @@
 {
   "version": "1.1.0",
-  "entry_agent": "taizi",
-  "planner_agent": "zhongshu",
-  "review_agent": "menxia",
-  "dispatch_agent": "shangshu",
-  "documentation_agent": "libu",
-  "governance_agent": "libu_hr",
+  "entry_agent": "intake",
+  "planner_agent": "planner",
+  "review_agent": "review-gate",
+  "dispatch_agent": "orchestrator",
+  "documentation_agent": "docs-spec",
+  "governance_agent": "governance",
   "internal_only_agents": [
-    "zaochao"
+    "scheduler"
   ],
   "agents": {
-    "taizi": {
-      "label": "太子",
-      "official_title": "东宫太子",
-      "english_title": "Crown Prince / Intake Office",
+    "intake": {
+      "label": "接入中心",
+      "official_title": "接入中心",
+      "english_title": "Intake Hub",
       "position_group": "core",
       "court_rank": "entry",
       "role": "intake",
@@ -38,16 +38,16 @@
       ],
       "can_receive_from": [
         "external",
-        "zhongshu"
+        "planner"
       ],
       "can_send_to": [
-        "zhongshu"
+        "planner"
       ]
     },
-    "zhongshu": {
-      "label": "中书省",
-      "official_title": "中书令",
-      "english_title": "Secretariat / Planning Office",
+    "planner": {
+      "label": "规划中心",
+      "official_title": "规划中心",
+      "english_title": "Planning Office",
       "position_group": "core",
       "court_rank": "plan",
       "role": "planner",
@@ -73,20 +73,20 @@
         "方案设计"
       ],
       "can_receive_from": [
-        "taizi",
-        "menxia",
-        "shangshu"
+        "intake",
+        "review-gate",
+        "orchestrator"
       ],
       "can_send_to": [
-        "taizi",
-        "menxia",
-        "shangshu"
+        "intake",
+        "review-gate",
+        "orchestrator"
       ]
     },
-    "menxia": {
-      "label": "门下省",
-      "official_title": "门下侍中",
-      "english_title": "Chancellery / Review Gate",
+    "review-gate": {
+      "label": "评审中心",
+      "official_title": "评审中心",
+      "english_title": "Review Gate",
       "position_group": "core",
       "court_rank": "review",
       "role": "reviewer",
@@ -114,18 +114,18 @@
         "标准把控"
       ],
       "can_receive_from": [
-        "zhongshu",
-        "shangshu"
+        "planner",
+        "orchestrator"
       ],
       "can_send_to": [
-        "zhongshu",
-        "shangshu"
+        "planner",
+        "orchestrator"
       ]
     },
-    "shangshu": {
-      "label": "尚书省",
-      "official_title": "尚书令",
-      "english_title": "Department of State Affairs / Dispatch Office",
+    "orchestrator": {
+      "label": "调度中心",
+      "official_title": "调度中心",
+      "english_title": "Orchestration Hub",
       "position_group": "core",
       "court_rank": "dispatch",
       "role": "dispatcher",
@@ -156,30 +156,30 @@
         "结果整合"
       ],
       "can_receive_from": [
-        "zhongshu",
-        "menxia",
-        "hubu",
-        "libu",
-        "bingbu",
-        "xingbu",
-        "gongbu",
-        "libu_hr"
+        "planner",
+        "review-gate",
+        "data-ops",
+        "docs-spec",
+        "engineering",
+        "security",
+        "platform",
+        "governance"
       ],
       "can_send_to": [
-        "zhongshu",
-        "menxia",
-        "hubu",
-        "libu",
-        "bingbu",
-        "xingbu",
-        "gongbu",
-        "libu_hr"
+        "planner",
+        "review-gate",
+        "data-ops",
+        "docs-spec",
+        "engineering",
+        "security",
+        "platform",
+        "governance"
       ]
     },
-    "hubu": {
-      "label": "户部",
-      "official_title": "户部尚书",
-      "english_title": "Ministry of Revenue / Resource Office",
+    "data-ops": {
+      "label": "数据资源组",
+      "official_title": "数据资源组",
+      "english_title": "Data & Resource Ops",
       "position_group": "department",
       "court_rank": "worker",
       "role": "data_worker",
@@ -201,16 +201,16 @@
         "成本分析"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "libu": {
-      "label": "礼部",
-      "official_title": "礼部尚书",
-      "english_title": "Ministry of Rites / Documentation Office",
+    "docs-spec": {
+      "label": "文档规范组",
+      "official_title": "文档规范组",
+      "english_title": "Docs & Spec Ops",
       "position_group": "department",
       "court_rank": "worker",
       "role": "docs_worker",
@@ -232,16 +232,16 @@
         "规范制定"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "bingbu": {
-      "label": "兵部",
-      "official_title": "兵部尚书",
-      "english_title": "Ministry of War / Engineering Office",
+    "engineering": {
+      "label": "工程实施组",
+      "official_title": "工程实施组",
+      "english_title": "Engineering Delivery",
       "position_group": "department",
       "court_rank": "worker",
       "role": "engineering_worker",
@@ -263,16 +263,16 @@
         "代码审查"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "xingbu": {
-      "label": "刑部",
-      "official_title": "刑部尚书",
-      "english_title": "Ministry of Justice / Security Office",
+    "security": {
+      "label": "安全合规组",
+      "official_title": "安全合规组",
+      "english_title": "Security & Compliance",
       "position_group": "department",
       "court_rank": "worker",
       "role": "security_worker",
@@ -294,16 +294,16 @@
         "红线管控"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "gongbu": {
-      "label": "工部",
-      "official_title": "工部尚书",
-      "english_title": "Ministry of Works / Platform Office",
+    "platform": {
+      "label": "平台发布组",
+      "official_title": "平台发布组",
+      "english_title": "Platform & Release",
       "position_group": "department",
       "court_rank": "worker",
       "role": "platform_worker",
@@ -325,16 +325,16 @@
         "自动化"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "libu_hr": {
-      "label": "吏部",
-      "official_title": "吏部尚书",
-      "english_title": "Ministry of Personnel / Governance Office",
+    "governance": {
+      "label": "Agent治理组",
+      "official_title": "Agent治理组",
+      "english_title": "Agent Governance",
       "position_group": "department",
       "court_rank": "worker",
       "role": "agent_admin_worker",
@@ -355,16 +355,16 @@
         "培训"
       ],
       "can_receive_from": [
-        "shangshu"
+        "orchestrator"
       ],
       "can_send_to": [
-        "shangshu"
+        "orchestrator"
       ]
     },
-    "zaochao": {
-      "label": "早朝官",
-      "official_title": "朝会值日官",
-      "english_title": "Court Herald / Scheduler Hook",
+    "scheduler": {
+      "label": "定时调度器",
+      "official_title": "定时调度器",
+      "english_title": "Scheduler Trigger",
       "position_group": "automation",
       "court_rank": "internal",
       "role": "scheduler",
@@ -388,7 +388,7 @@
         "scheduler"
       ],
       "can_send_to": [
-        "taizi"
+        "intake"
       ]
     }
   }

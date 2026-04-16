@@ -1,4 +1,8 @@
-# Beginner Guide
+# Beginner Guide 中文版
+
+> 这份文档给人看，不作为模型入口说明。
+
+## 1. 这个 skill 是做什么的
 
 `role-based-agent-governance` 是一个面向多 Agent 协作场景的 skill 包。
 
@@ -8,24 +12,13 @@
 - `planner`：做规划、拆解任务、设计方案
 - `review-gate`：做风险审查、质量把关
 - `orchestrator`：负责派发、协调和汇总
-- 六部执行角色：按职责完成具体工作
+- 执行角色：按职责完成具体工作
 
-这套治理思路借鉴于 [Edict](https://github.com/cft0808/edict) 项目，但这里发布的是更轻量的 skill 版本，主要保留可移植的规则、角色分工和 workflow 约束。
-
-现在这个仓库里除了主 skill，还额外拆出了 4 个独立 workflow skill：
-
-- `workflow-6a`
-- `workflow-6ayh`
-- `workflow-ppw`
-- `workflow-sdd`
-
-如果你是第一次接触这个 skill，可以把它理解成：
+如果你第一次接触它，可以把它理解成：
 
 > 给 AI 一套“先理解、再规划、必要时审核、最后执行”的协作规则。
 
----
-
-## 1. 适合谁用
+## 2. 适合谁用
 
 适合以下场景：
 
@@ -40,9 +33,7 @@
 - 只需要单步执行的小任务
 - 不希望引入额外流程和角色分工
 
----
-
-## 2. 安装前准备
+## 3. 安装位置
 
 在 Codex 环境里，skill 一般安装到：
 
@@ -56,19 +47,17 @@
 ~/.codex/skills/role-based-agent-governance/
 ├── SKILL.md
 ├── OVERVIEW.md
+├── OVERVIEW.zh-CN.md
 ├── BEGINNER_GUIDE.md
+├── BEGINNER_GUIDE.zh-CN.md
 ├── LICENSE
 ├── PUBLISHING.md
 └── references/
 ```
 
----
-
-## 3. 安装方法
+## 4. 安装方法
 
 ### 方法一：本地复制安装
-
-如果你已经拿到了这个仓库的本地目录，直接复制到 skills 目录：
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -79,29 +68,17 @@ cp -R /path/to/role-based-agent-governance ~/.codex/skills/role-based-agent-gove
 
 ### 方法二：从 GitHub 下载后安装
 
-1. 打开仓库下载 zip，或克隆仓库
-2. 解压后确认根目录里有 `SKILL.md`
-3. 把整个目录放到 `~/.codex/skills/role-based-agent-governance`
-
-例如：
-
 ```bash
 git clone https://github.com/awfaups/role-based-agent-governance.git
 mkdir -p ~/.codex/skills
 cp -R role-based-agent-governance ~/.codex/skills/role-based-agent-governance
 ```
 
-### 安装后必须做的事
+安装后必须重启 Codex，不然新安装的 skill 往往不会立刻生效。
 
-重启 Codex。
+## 5. 安装成功怎么确认
 
-如果不重启，新安装的 skill 往往不会立刻生效。
-
----
-
-## 4. 安装成功怎么确认
-
-确认目录存在：
+执行：
 
 ```bash
 ls ~/.codex/skills/role-based-agent-governance
@@ -114,9 +91,7 @@ ls ~/.codex/skills/role-based-agent-governance
 
 说明文件已经放对位置了。
 
----
-
-## 5. 第一次怎么用
+## 6. 第一次怎么用
 
 这个 skill 最重要的入口是：
 
@@ -124,11 +99,7 @@ ls ~/.codex/skills/role-based-agent-governance
 @intake
 ```
 
-你可以把它理解成“总入口指令”。
-
-### 最简单的使用方式
-
-直接在对话里写：
+最简单的使用方式：
 
 ```text
 @intake 帮我规划一个多 Agent 协作方案
@@ -140,7 +111,7 @@ ls ~/.codex/skills/role-based-agent-governance
 @intake 帮我把这个复杂需求拆成规划、审核、执行三层
 ```
 
-### skill 会做什么
+## 7. 它会怎么工作
 
 收到 `@intake` 后，系统通常会按这个顺序处理：
 
@@ -148,6 +119,9 @@ ls ~/.codex/skills/role-based-agent-governance
 2. 判断要走哪条内部流程
 3. 生成结构化任务卡
 4. 把 workflow 文档写到你当前打开项目根目录下的 `docs/` 目录
+5. 交给 `planner` 做方案和拆解
+6. 如果任务风险高，再交给 `review-gate`
+7. 最后由 `orchestrator` 协调执行角色
 
 文档目录格式统一为：
 
@@ -162,7 +136,6 @@ docs/2026_03_23_首页优化_v1/
 ```
 
 这里的 `docs/` 指的是你当前 IDE 里正在处理的那个项目根目录，不是这个 skill 包安装目录。
-如果同一个功能继续出第二版、第三版方案或实现文档，就把目录版本号递增到 `v2`、`v3`。
 
 如果 workflow 里包含代码修改，文档还应该额外写清楚：
 
@@ -170,13 +143,8 @@ docs/2026_03_23_首页优化_v1/
 2. 大概位于哪些行
 3. 修改前的代码上下文
 4. 修改后的代码上下文
-5. 交给 `planner` 做方案和拆解
-6. 如果任务风险高，再交给 `review-gate`
-7. 最后由 `orchestrator` 协调执行角色
 
----
-
-## 6. 常见触发方式
+## 8. 常见触发方式
 
 ### 通用入口
 
@@ -184,11 +152,7 @@ docs/2026_03_23_首页优化_v1/
 @intake
 ```
 
-这是最推荐的入口。
-
 ### 工作流别名
-
-如果你已经知道自己要走哪类流程，也可以使用这些别名：
 
 - `@plan`：任务规划
 - `@risk`：风险评估
@@ -199,15 +163,9 @@ docs/2026_03_23_首页优化_v1/
 - `@PPW`：项目流程梳理
 - `@sdd`：规格驱动开发
 
-如果你想让它更稳定地跑 `SDD`，可以把规格文档按这个模板生成：
-
-- [references/templates/01_SPEC.template.md](references/templates/01_SPEC.template.md)
-
 如果你不确定用哪个，直接用 `@intake` 就够了。
 
----
-
-## 7. 新手推荐的提问模板
+## 9. 新手推荐提问模板
 
 ### 模板 1：让它帮你规划
 
@@ -233,49 +191,24 @@ docs/2026_03_23_首页优化_v1/
 @intake 帮我规划这个需求，要求包含风险控制、执行顺序和交付标准
 ```
 
----
+## 10. 常见问题
 
-## 8. 一个完整例子
-
-你输入：
-
-```text
-@intake 我要做一个跨前端、文档和部署的复杂需求，请按多 Agent 模式帮我规划
-```
-
-通常会发生：
-
-1. `intake` 先整理目标和约束
-2. `planner` 给出拆解方案和执行顺序
-3. 因为这是跨多个职责域的任务，所以可能经过 `review-gate`
-4. `orchestrator` 再根据标签把任务分配给不同执行角色
-
-对你来说，最直观的变化是：
-
-- 输出会更结构化
-- 任务边界更清晰
-- 复杂任务不容易一上来就乱做
-
----
-
-## 9. 常见问题
-
-### Q1：为什么我用了以后感觉“步骤变多了”？
+### 为什么感觉步骤变多了
 
 因为这个 skill 的目标不是“最快回答一句话”，而是让复杂任务更可控。
 
 如果任务本来就很简单，就不应该强行用它。
 
-### Q2：为什么推荐用 `@intake`，而不是直接叫别的角色？
+### 为什么推荐用 `@intake`
 
-因为这个 skill 的规则就是：
+因为这套规则要求：
 
 - 外部请求只能从 `intake` 进入
 - 不能跳过入口，直接点名 `planner`、`review-gate` 或执行角色
 
-这能避免角色越权和流程混乱。
+这样可以避免角色越权和流程混乱。
 
-### Q3：什么时候会进入 `review-gate` 审议？
+### 什么时候会进入 `review-gate`
 
 一般是这些情况：
 
@@ -284,7 +217,7 @@ docs/2026_03_23_首页优化_v1/
 - 涉及安全、部署、权限
 - 验收标准不清楚
 
-### Q4：安装了但没生效怎么办？
+### 安装了但没生效怎么办
 
 先检查三件事：
 
@@ -292,20 +225,16 @@ docs/2026_03_23_首页优化_v1/
 2. 根目录是否真的有 `SKILL.md`
 3. 是否已经重启 Codex
 
----
+## 11. 推荐阅读顺序
 
-## 10. 推荐阅读顺序
+建议按这个顺序看：
 
-如果你想进一步理解这个 skill，建议按这个顺序看：
+1. [OVERVIEW.zh-CN.md](/Users/caiyanning/AI_skills/role-based-agent-governance/OVERVIEW.zh-CN.md)
+2. [OVERVIEW.md](/Users/caiyanning/AI_skills/role-based-agent-governance/OVERVIEW.md)
+3. [role-permissions.md](/Users/caiyanning/AI_skills/role-based-agent-governance/references/role-permissions.md)
+4. [workflow-routing.json](/Users/caiyanning/AI_skills/role-based-agent-governance/references/workflow-routing.json)
 
-1. [OVERVIEW.md](OVERVIEW.md)
-2. [SKILL.md](SKILL.md)
-3. [references/role-permissions.md](references/role-permissions.md)
-4. [references/workflow-routing.json](references/workflow-routing.json)
-
----
-
-## 11. 一句话总结
+## 12. 一句话总结
 
 如果你是新手，记住这一条就够了：
 

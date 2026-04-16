@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "department": "bingbu",
+      "department": "engineering",
       "match_any_tags": [
         "code",
         "bugfix",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "department": "libu",
+      "department": "docs-spec",
       "match_any_tags": [
         "docs",
         "api",
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "department": "hubu",
+      "department": "data-ops",
       "match_any_tags": [
         "data",
         "cost",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "department": "xingbu",
+      "department": "security",
       "match_any_tags": [
         "security",
         "compliance",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "department": "gongbu",
+      "department": "platform",
       "match_any_tags": [
         "deploy",
         "cicd",
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "department": "libu_hr",
+      "department": "governance",
       "match_any_tags": [
         "agent",
         "permission",

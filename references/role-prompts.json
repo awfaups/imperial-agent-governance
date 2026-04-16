@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "roles": {
-    "taizi": {
+    "intake": {
       "stage_owner": ["Understand"],
       "prompt_focus": [
         "任务理解与契约化",
@@ -13,20 +13,20 @@
         "目标是否明确",
         "约束是否明确",
         "是否存在隐含依赖",
-        "是否触发 @taizi / @init / @plan / @risk / @decision / @audit / @ask / @ppw / @6A / @6AYH / @PPW",
+        "是否触发 @intake / @init / @plan / @risk / @decision / @audit / @ask / @ppw / @6A / @6AYH / @PPW",
         "首个状态流转是否为 submitted->triaged"
       ],
       "outputs": [
         "结构化任务卡",
         "推荐工作流",
-        "是否需要进入 menxia",
+        "是否需要进入 review-gate",
         "工作流必需文档清单",
         "文档版本号",
         "首条 handoff 记录",
         "职责转移提示"
       ]
     },
-    "zhongshu": {
+    "planner": {
       "stage_owner": ["Plan"],
       "prompt_focus": [
         "方案设计",
@@ -51,7 +51,7 @@
         "阶段职责转移提示"
       ]
     },
-    "menxia": {
+    "review-gate": {
       "stage_owner": ["ReviewGate"],
       "prompt_focus": [
         "风险评审",
@@ -74,7 +74,7 @@
         "审批后的职责转移提示"
       ]
     },
-    "shangshu": {
+    "orchestrator": {
       "stage_owner": ["Execute", "Report"],
       "prompt_focus": [
         "任务调度",
@@ -100,7 +100,7 @@
         "执行职责转移提示"
       ]
     },
-    "bingbu": {
+    "engineering": {
       "stage_owner": ["ExecutionWorker"],
       "prompt_focus": [
         "代码实现",
@@ -122,7 +122,7 @@
         "实现摘要"
       ]
     },
-    "libu": {
+    "docs-spec": {
       "stage_owner": ["DocumentationWorker"],
       "prompt_focus": [
         "设计文档",
@@ -145,7 +145,7 @@
         "代码修改定位清单"
       ]
     },
-    "hubu": {
+    "data-ops": {
       "stage_owner": ["CostWorker"],
       "prompt_focus": [
         "复杂度成本",
@@ -161,7 +161,7 @@
         "资源评估"
       ]
     },
-    "xingbu": {
+    "security": {
       "stage_owner": ["SecurityWorker"],
       "prompt_focus": [
         "安全检查",
@@ -178,7 +178,7 @@
         "审计意见"
       ]
     },
-    "gongbu": {
+    "platform": {
       "stage_owner": ["PlatformWorker"],
       "prompt_focus": [
         "工具链",
@@ -196,7 +196,7 @@
         "CI/CD 注意事项"
       ]
     },
-    "libu_hr": {
+    "governance": {
       "stage_owner": ["GovernanceWorker"],
       "prompt_focus": [
         "权限维护",
